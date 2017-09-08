@@ -3,13 +3,10 @@
 		<div id = "Menu">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 			  <li class="nav-item">
-				<a id='Documentos'  data-toggle="tab"  class="nav-link active" href=""  role="tab"  @click="currentView='Documentos'" v-on:click.prevent="">Documentos</a>
+				<a id='TiposColeccion'  data-toggle="tab"  class="nav-link active" href=""  role="tab"  @click="currentView='TiposColeccion'" v-on:click.prevent="">Tipos de Colección</a>
 			  </li>
 			  <li class="nav-item">
-				 <a id="Plantillas" class="nav-link" data-toggle="tab" href="" role="tab"  @click="currentView='Plantillas'" v-on:click.prevent="">Plantillas</a>
-			  </li>
-			  <li class="nav-item">
-				<a id="Perfiles" class="nav-link" data-toggle="tab" href="" role="tab"  @click="currentView='Perfiles'" v-on:click.prevent=""> Perfiles de usuarios</a>
+				 <a id="Distribuidores" class="nav-link" data-toggle="tab" href="" role="tab"  @click="currentView='Distribuidores'" v-on:click.prevent="">Distribuidores</a>
 			  </li>
 			</ul>
 
@@ -20,15 +17,14 @@
 
 		</div>
 	</div>
-</template>
+</template>	
 
 
 
 <script>
-	import Documentos from './documentosMaster.vue'
-	import Plantillas from  './plantillasMaster.vue'
-	import Perfiles from './perfilesMaster.vue'
-	import detail from './detail.vue'
+	import Distribuidores from './distribuidoresMaster.vue'
+	import Colecciones from  './tiposColeccionMaster.vue'
+
 
 	import constantes from './constants.js'
 
@@ -36,13 +32,12 @@
 	export default{
 		components:{
 			detail,
-			Documentos,
-			Plantillas,
-			Perfiles
+			TiposColeccion,
+			Distribuidores
 		},
 		data (){
 			return{
-				currentView: 'Documentos'
+				currentView: 'TiposColeccion'
 			}
 		},
 		computed:{
