@@ -13,7 +13,7 @@ namespace formulario
         public string Formato { get; set; }
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
-        public string Tamaño { get; set; }
+        public string Tamanio { get; set; }
         public int NumeroCromos { get; set; }
         
     }
