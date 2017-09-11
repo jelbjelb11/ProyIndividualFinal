@@ -3,9 +3,9 @@
 		<div id ="FormularioDocumentos" class="mx-auto" style="width: 60%">
 			<center>
 				<div class="form-group">
-					<button :disabled="this.isEditable" id="enableEditButton" class="btn btn-primary" v-on:click="buttonEnableEdit">Modificar</button>
+					<button :disabled="this.isEditable" id="enableEditButton" class="btn btn-primary" v-on:click="buttonEnableEdit"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
 					
-					<button  id="borrarButton" :disabled="this.computeDeleteButton" class="btn btn-primary" v-on:click="buttonBorrar">Borrar</button>
+					<button  id="borrarButton" :disabled="this.computeDeleteButton" class="btn btn-danger" v-on:click="buttonBorrar"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
 				</div>
 			</center>
 			<div class="form-group">
@@ -50,16 +50,8 @@
 			</div>
 			<center>
 				<div class="form-group">
-					<button  id="acceptButton" :disabled="this.computeAcceptButton" class="btn btn-primary" v-on:click="buttonAccept">Aceptar</button>
-					<button  id="cancelarButton" class="btn btn-primary" v-on:click="buttonCancelar">Cancelar</button>
-
-					<div class="form-group">
-					<label class="col-md-2 control-label" for="submit"></label>
-						<div class="col-md-8">
-							<button id="submit" name="submit" class="btn btn-primary" value="1">Create Profile</button>
-							<a href="/link-to/whatever-address/" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
-						</div>
-					</div>
+					<button  id="acceptButton" :disabled="this.computeAcceptButton" class="btn btn-success" v-on:click="buttonAccept"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
+					<button  id="cancelarButton" class="btn btn-primary" v-on:click="buttonCancelar"><span class="glyphicon glyphicon-repeat"></span> Cancelar</button>
 				</div>
 			</center>
 
