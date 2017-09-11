@@ -1,23 +1,297 @@
 <template>
 	<div id="Detail" class="detail-div">
-		
+		<div id ="FormularioDocumentos" class="mx-auto" style="width: 60%">
+			<center>
+				<div class="form-group">
+					<button :disabled="this.isEditable" id="enableEditButton" class="btn btn-primary" v-on:click="buttonEnableEdit">Modificar</button>
+					
+					<button  id="borrarButton" :disabled="this.computeDeleteButton" class="btn btn-primary" v-on:click="buttonBorrar">Borrar</button>
+				</div>
+			</center>
+			<div class="form-group">
+				<label for="Nombre">Título de la colección:</label>
+				<input :disabled="!isEditable" class="form-control" v-model="documento.Titulo" type="text" id="TituloInput" placeholder="Titulo"></input>
+			</div>
+			<div class="form-group">
+				<label>Formato de colección:</label>
+				<input :disabled="!isEditable" class="form-control" type="text" v-model="documento.Formato" id="FormatoInput" placeholder="Formato"></input>
+			</div>
+			<div class="form-group row">
+				<div class="col">
+					<label>Fecha fin de tirada:</label>
+					
+					<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaInicio" id="creacionInput" ></input>
+					
+				</div>
+				<div class="col">
+					<label>Fecha inicio tirada:</label>
+					<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaFin" id="ultimamodificacionInput"></input>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Tamaño del cromo:</label>
+				<input :disabled="!isEditable" class="form-control" type="number" v-model="documento.Tamanio" id="tamanioInput" ></input>
+			</div>
+			<div class="form-group">
+				<label>Tipo:</label>
+				<select v-model="documento.Tipo" class="form-control" :disabled="!isEditable">
+					<option value=1>Texto plano</option>
+					<option value=2>Imagen</option>
+					<option value=3>PDF</option>
+					<option value=4>Hoja de cálculo</option>
+					<option value=5>Documento de Word</option>
+				</select>
+			</div>
+			<div v-if="this.state==0">
+				<input id="input-1a" type="file" class="file" data-show-preview="false">
+			</div>
+			<div class="checkbox">
+				<label>	<input :disabled="!isEditable" class="checkbox" type="checkbox" v-model="documento.Periodica" id="modificableInput" >Periódica</label>
+			</div>
+			<center>
+				<div class="form-group">
+					<button  id="acceptButton" :disabled="this.computeAcceptButton" class="btn btn-primary" v-on:click="buttonAccept">Aceptar</button>
+					<button  id="cancelarButton" class="btn btn-primary" v-on:click="buttonCancelar">Cancelar</button>
+
+					<div class="form-group">
+					<label class="col-md-2 control-label" for="submit"></label>
+						<div class="col-md-8">
+							<button id="submit" name="submit" class="btn btn-primary" value="1">Create Profile</button>
+							<a href="/link-to/whatever-address/" id="cancel" name="cancel" class="btn btn-default">Cancel</a>
+						</div>
+					</div>
+				</div>
+			</center>
+
+		</div>
 	</div>
 </template>
 
 <script>
+	import constantes from './constants.js';
 	export default{
 		components:{
 		},
 		data (){
 			return{
+				documento:{
+				},
+				previousDocument:{
+				},
+				isEditable:false,
+				menuChoice : "ColeccionTipos",
+				estaVacio : false
+
 			}
 		},
+		props:[
+		'state',
+		'currentId'
+		],
 		computed:{
+			computeAcceptButton: function()	{
+				if(!this.isEditable){
+					return  true; 
+				}
+				else if(this.state == constantes.STATE_NEW){
+					return false;
+				}
+				else if(this.state == constantes.STATE_UPDATE){
+					if(this.documento.Titulo != this.previousDocument.Titulo){
+						return false;
+					}
+					else if(this.documento.Formato != this.previousDocument.Formato){
+						return false;
+					}
+					else if(this.documento.FechaInicio != this.previousDocument.FechaInicio){
+						return false;
+					}
+					else if(this.documento.FechaFin != this.previousDocument.FechaFin){
+						return false;
+					}
+					else if(this.documento.Tipo != this.previousDocument.Tipo){
+						return false;
+					}
+					else if(this.documento.Tamanio != this.previousDocument.Tamanio){
+						return false;
+					}
+					else if(this.documento.Periodica != this.previousDocument.Periodica){
+						return false;
+					}
+					else{return true;}
+				}
+			},
+			computeDeleteButton: function(){
+				if(!this.isEditable){
+					return true;
+				}
+				else if(this.state == constantes.STATE_UPDATE){
+					return false;
+				}
+				else {return true};
+			},
 		},
 		methods:{
+			buttonEnableEdit: function(){
+				this.isEditable = !this.isEditable;
+				this.previousDocument = $.extend({}, this.documento)
+			},
+			buttonBorrar: function(){
+				if(confirm("¿Está seguro de que quiere borrar?")){
+					$.ajax({
+						url:constantes.BASE_URL + this.menuChoice + "/" + this.currentId,
+						method: "DELETE"
+					})
+					.done(this.borradoHandler)
+					.fail(function(){alert("Ha habido un error al borrar.");})
+				}
+			},
+			buttonCancelar: function(){
+				this.$emit('cancelDetail', true);
+
+			},
+			borradoHandler: function(){
+				alert("Elemento borrado correctamente.");
+				this.$emit('makeGet', true);
+				this.makeEmptyData();
+			},
+			buttonAccept: function(){
+
+				if(this.state == constantes.STATE_NEW){
+					let errores = "";
+					if(this.documento.Titulo===""){
+						errores+="El valor de Título está vacío. \n";
+					}
+					if(this.documento.Formato===""){
+						errores+="El valor de Formato está vacío. \n";
+					}
+					if(this.documento.FechaInicio === "")
+					{
+						errores+="El valor de Fecha de Creación está vacío. \n";
+					}
+					if(this.documento.FechaFin === "" )
+					{
+						errores+="El valor de Última Modificación está vacío. \n";
+					}
+					if(this.documento.Tipo === 0){
+						errores+="El valor de Tipo no es correcto. \n";	
+					} 
+					if(this.documento.Tamanio === 0){
+						errores+="El valor de Tamaño es 0. \n";
+					}
+					if(errores != ""){
+						alert("Hay campos no rellenados. No se puede crear el objeto:\n" + errores);
+					}
+					else{
+						$.ajax({url:constantes.BASE_URL + this.menuChoice,
+							method:"POST",
+							data: this.documento})	
+						.done(this.afterPostHandler)
+						.fail(function(){
+							alert("Fallo en la creacion del elemento");
+						//TODO: Gestionar los fallos
+					})
+					}
+
+				}
+				else if(this.state == constantes.STATE_UPDATE){
+					$.ajax({url:constantes.BASE_URL + this.menuChoice + "/" + this.currentId,
+						method:"PUT",
+						data: this.documento})
+					.done(this.putSubmitData)
+				}
+			},
+			afterPostHandler(){
+				alert("Elemento creado");
+				this.$emit('forceUpdate', true);
+
+				// TODO: Se fuerza un get en el maestro y se cierra el detail.
+				// Podemos llamar al metodo buttonCancelar.
+			},
+			putSubmitData(){
+				alert("Elemento modificado");
+				this.previousDocument = $.extend({}, this.documento);
+				this.$emit('forceUpdate', true);
+
+			}, 	
+			makeGetRequest(){
+				$.ajax({
+					url: constantes.BASE_URL + this.menuChoice + "/" + this.currentId,
+					method: "GET"
+				})
+				.done(this.submitGetRequest)
+				.fail(function(){
+					alert("Ha fallado la carga del objeto");
+				})
+			},
+			makeEmptyData(){
+				if(!this.estaVacio){
+					this.documento = {};
+					this.currentId = "";
+					this.documento.Titulo = "";
+					this.documento.Formato = "";
+					this.documento.FechaInicio = "";
+					this.documento.FechaFin = "";
+					this.documento.Tamanio = 0;
+					this.documento.Tipo = 0;
+					this.documento.Periodica = false;
+
+					this.previousDocument={};
+					this.previousDocument.Titulo = "";
+					this.previousDocument.Formato = "";
+					this.previousDocument.FechaInicio = "";
+					this.previousDocument.FechaFin = "";
+					this.previousDocument.Tamanio = 0;
+					this.previousDocument.Tipo = 0;
+					this.previousDocument.Periodica = false;
+				}
+			},
+			submitGetRequest(datos){
+				this.currentId = datos.Id;
+				this.documento = datos; 	
+			},
+			parseTipo: function(array){
+				var _this = this;
+				array.forEach(function(element, index) {
+					
+					if(element.Tipo == 2){
+						_this.lista[index].Tipo = "Imagen";
+					}
+					else if(element.Tipo == 3){
+						_this.lista[index].Tipo = "PDF";
+					}
+					else if(element.Tipo == 4){
+						_this.lista[index].Tipo = "Hoja de cálculo";
+					}
+					else if(element.Tipo == 5){
+						_this.lista[index].Tipo = "Documento de Word";
+					}
+					else if(element.Tipo == 1){
+						_this.lista[index].Tipo = "Texto";
+					}
+				});
+			},
+			makeNewDetail: function(){
+				this.makeEmptyData();
+				this.currentId = "";
+				this.state = constantes.STATE_NEW;
+				this.isEditable = true;
+			},
 			
-		}
+		}, 
+		mounted(){
+			if(this.state == constantes.STATE_UPDATE){
+				this.makeGetRequest();
+			}
+			else if(this.state == constantes.STATE_NEW){
+				this.makeEmptyData(); 	
+				this.estaVacio = true;
+				this.isEditable = true;
+			}
+		},
 	}
 </script>
 
-<style></style>
+<style>
+
+</style>

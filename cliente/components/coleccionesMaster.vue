@@ -30,6 +30,12 @@
 					<td>{{item.Periodica}}</td>
 				</tr>
 
+				<tr id="detail-tr" v-if="item.Id == elegido">
+					<td colspan="6">
+						<detail @makeGet= "recargarMaster" @forceUpdate = "forceUpdate" @cancelDetail = "removeDetail" :currentId = "elegido" :state = "state" role="tabpanel" class="float-right"> </detail>
+					</td>
+				</tr>
+
 			</tbody>
 
 		</table>
@@ -62,12 +68,15 @@
 		data (){
 			return{
 				lista: [],
-				menuChoice:"Colecciones",
+				menuChoice:"ColeccionTipos",
 				state: "",
 				elegido : "",
 			}
 		},
 		computed:{
+			computeShowNewDetail(){
+				return this.state === constantes.STATE_NEW;
+			},
 		},
 		methods:{
 			makeGetListRequest(){
@@ -94,40 +103,36 @@
 			},
 			submitGetListValues: function(datos){
 				this.lista = datos;
-				this.parseTipo(datos);
+				// this.parseTipo(datos);
 			},
-			parseTipo: function(array){
-				var _this = this;
-				array.forEach(function(element, index) {
-					if(element.Tipo == 4){
-						_this.lista[index].Tipo = "Texto";
-					}
-					else if(element.Tipo == 1){
-						_this.lista[index].Tipo = "Imagen";
-					}
-					else if(element.Tipo == 2){
-						_this.lista[index].Tipo = "HTML";
-					}
-					else if(element.Tipo == 3){
-						_this.lista[index].Tipo = "Hoja de cálculo";
-					}
-					if(element.SoloLectura){
-						_this.lista[index].SoloLectura = "Si";
-					}
-					else{
-						_this.lista[index].SoloLectura = "No";
-					}
-				});
-			},
+			// parseTipo: function(array){
+			// 	var _this = this;
+			// 	array.forEach(function(element, index) {
+			// 		if(element.Tipo == 4){
+			// 			_this.lista[index].Tipo = "Texto";
+			// 		}
+			// 		else if(element.Tipo == 1){
+			// 			_this.lista[index].Tipo = "Imagen";
+			// 		}
+			// 		else if(element.Tipo == 2){
+			// 			_this.lista[index].Tipo = "HTML";
+			// 		}
+			// 		else if(element.Tipo == 3){
+			// 			_this.lista[index].Tipo = "Hoja de cálculo";
+			// 		}
+			// 		if(element.SoloLectura){
+			// 			_this.lista[index].SoloLectura = "Si";
+			// 		}
+			// 		else{
+			// 			_this.lista[index].SoloLectura = "No";
+			// 		}
+			// 	});
+			// },
 
-			emitEnableDetailEvent(read) {
-		      // Send the event on a channel () with a payload ()
-		      EventBus.$emit('enableDetail', this.read);
-		  },
-		  getNewDetail: function(){
-		  	this.state = constantes.STATE_NEW;
-		  	this.elegido = "";
-				//this.emitEnableDetailEvent(this.read);
+
+			getNewDetail: function(){
+				this.state = constantes.STATE_NEW;
+				this.elegido = "";
 			},	
 			renderDetail: function(index){
 				if(this.state == constantes.STATE_UPDATE){
