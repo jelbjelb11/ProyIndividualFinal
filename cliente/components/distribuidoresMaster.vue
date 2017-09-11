@@ -32,7 +32,7 @@
 
 <script type="text/javascript">
 	import constantes from './constants.js';
-	import detail from './tiposColeccionDetail.vue'
+	import detail from './coleccionesDetail.vue'
 	export default{
 		components:{
 
