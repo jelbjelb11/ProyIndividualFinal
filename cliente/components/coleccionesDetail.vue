@@ -7,39 +7,54 @@
 		</div>
 		<div class="modal-body">
 			<div id="Detail" class="detail-div">
-				<div id ="FormularioDocumentos" class="mx-auto">
-					<div class="form-group">
-						<div class="col-lg-3">
-							<button :disabled="this.isEditable" id="enableEditButton" class="btn btn-primary" v-on:click="buttonEnableEdit"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
-							<button  id="borrarButton" :disabled="this.computeDeleteButton" class="btn btn-danger" v-on:click="buttonBorrar"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
-						</div>
+				<div id ="FormularioCromos" class="mx-auto">
+					<div id ="btnUpDel" class="form-group">
+						<button :disabled="this.isEditable" id="enableEditButton" class="btn btn-primary" v-on:click="buttonEnableEdit"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
+						<button  id="borrarButton" :disabled="this.computeDeleteButton" class="btn btn-danger" v-on:click="buttonBorrar"><span class="glyphicon glyphicon-trash"></span>Borrar</button>
 					</div>
 					<div class="form-group">
-						<label for="Nombre">Título de la colección:</label>
+						<div id="izq">
+							<label for="Nombre">Título de la colección:</label>
+						</div>
 						<input :disabled="!isEditable" class="form-control" v-model="documento.Titulo" type="text" id="TituloInput" placeholder="Titulo"></input>
 					</div>
 					<div class="form-group">
-						<label>Formato de colección:</label>
+						<div id="izq">
+							<label>Formato de colección:</label>
+						</div>
 						<input :disabled="!isEditable" class="form-control" type="text" v-model="documento.Formato" id="FormatoInput" placeholder="Formato"></input>
 					</div>
-					<div class="form-group row">
-						<div class="col">
-							<label>Fecha fin de tirada:</label>
-
-							<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaInicio" id="creacionInput" ></input>
-
-						</div>
-						<div class="col">
-							<label>Fecha inicio tirada:</label>
-							<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaFin" id="ultimamodificacionInput"></input>
+					<div class="checkbox">
+						<div id="izq">
+							<label>	<input :disabled="!isEditable" class="checkbox" type="checkbox" v-model="documento.Periodica" id="modificableInput" >Periódica</label>
 						</div>
 					</div>
+					
+
+					<div id="izq">
+						<div class="form-inline">
+							<div class="form-group">
+								<label>Fecha fin de tirada:</label>
+								<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaInicio" id="creacionInput" ></input>
+
+								<label>Fecha inicio tirada:</label>
+								<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaFin" id="ultimamodificacionInput"></input>
+
+
+							</div>
+						</div>
+					</div>
+					<hr>
 					<div class="form-group">
-						<label>Tamaño del cromo:</label>
+						<div id="izq">
+							<label>Tamaño del cromo:</label>
+						</div>
 						<input :disabled="!isEditable" class="form-control" type="number" v-model="documento.Tamanio" id="tamanioInput" ></input>
 					</div>
-					<div class="form-group">
-						<label>Tipo:</label>
+					<div>
+						<div id="izq">
+							<label>Tipo:</label>
+						</div>
 						<select v-model="documento.Tipo" class="form-control" :disabled="!isEditable">
 							<option value=1>Texto plano</option>
 							<option value=2>Imagen</option>
@@ -48,20 +63,21 @@
 							<option value=5>Documento de Word</option>
 						</select>
 					</div>
+					<hr>
 					<div v-if="this.state==0">
 						<input id="input-1a" type="file" class="file" data-show-preview="false">
 					</div>
-					<div class="checkbox">
-						<label>	<input :disabled="!isEditable" class="checkbox" type="checkbox" v-model="documento.Periodica" id="modificableInput" >Periódica</label>
-					</div>
+					
 
 
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button  id="acceptButton" :disabled="this.computeAcceptButton" class="btn btn-success" v-on:click="buttonAccept"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
-			<button  id="cancelarButton" class="btn btn-primary" v-on:click="buttonCancelar"><span class="glyphicon glyphicon-repeat"></span> Cancelar</button>
+			<div id ="btnUpDel">
+				<button  id="acceptButton" :disabled="this.computeAcceptButton" class="btn btn-success" v-on:click="buttonAccept"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
+				<button  id="cancelarButton" class="btn btn-primary" v-on:click="buttonCancelar"><span class="glyphicon glyphicon-repeat"></span> Cancelar</button>
+			</div>
 		</div>
 	</div>
 
@@ -295,5 +311,17 @@
 </script>
 
 <style>
+	#btnUpDel{
+		text-align: left;
+	}
 
+	hr {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		border: 0;
+		/* border-top: 1px solid #eee; */
+	}
+	#izq{
+		text-align: left;
+	}
 </style>
