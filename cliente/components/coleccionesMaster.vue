@@ -1,7 +1,13 @@
 <template>
 	<div class="container-fluid" style="width: 85%"> 
 		<table class="table table-hover" role="tablist">
+
 			<thead>
+			<tr  v-if="computeShowNewDetail" colspan="6">
+				<td colspan="6">
+					<detail @cancelDetail ="removeDetail" @forceUpdate = "forceUpdate" :currentId = "elegido" :state ="state" role="tabpanel" class="float-right"> </detail>
+				</td>
+			</tr>
 				<tr>
 
 					<th>#</th>
@@ -12,16 +18,6 @@
 
 				</tr>
 			</thead>
-
-			<!-- Cambiar esto por un modal -->
-
-			<tr  v-if="computeShowNewDetail">
-				<td colspan="6">
-					<detail @cancelDetail ="removeDetail" @forceUpdate = "forceUpdate" :currentId = "elegido" :state ="state" role="tabpanel" class="float-right"> </detail>
-				</td>
-			</tr>
-
-
 			<tbody @click="" v-for="(item, index) in lista">
 				<tr v-on:click="renderDetail(item.Id)">
 					<th scope="row" v-model='index'>{{index+1}}</th>  
@@ -32,38 +28,15 @@
 
 				<tr id="detail-tr" v-if="item.Id == elegido">
 					<td colspan="6">
-						<detail @makeGet= "recargarMaster" @forceUpdate = "forceUpdate" @cancelDetail = "removeDetail" :currentId = "elegido" :state = "state" role="tabpanel" class="float-right"> </detail>
+						<detail @makeGet= "recargarMaster" @forceUpdate = "forceUpdate" @cancelDetail = "removeDetail" :currentId = "elegido" :state = "state" role="tabpanel" class="float-right" > </detail>
 					</td>
 				</tr>
-
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-				<!-- Modal -->
-				<div id="myModal" class="modal fade" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">Modal Header</h4>
-							</div>
-							<div class="modal-body">
-								<p>Some text in the modal.</p>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-
-					</div>
-				</div>
 			</tbody>
-
-
 		</table>
-		<tfoot>
+
+		<!-- Paginado -->
+
+		<!-- <tfoot>
 			<hr>
 			<div class="container">
 				<ul class="pagination pagination-lg pager">
@@ -77,7 +50,7 @@
 				</ul>
 			</div>
 		</tfoot>
-		<hr>
+		<hr> -->
 	</div>
 </template>
 
