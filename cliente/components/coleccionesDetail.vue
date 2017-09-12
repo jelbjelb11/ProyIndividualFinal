@@ -4,72 +4,69 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" v-on:click="buttonCancelar">Cerrar &times;</button>
+			<div id ="btnUpDel">
+				<button :disabled="this.isEditable" id="enableEditButton" class="btn btn-primary" v-on:click="buttonEnableEdit"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
+				<button  id="borrarButton" :disabled="this.computeDeleteButton" class="btn btn-danger" v-on:click="buttonBorrar"><span class="glyphicon glyphicon-trash"></span>Borrar</button>
+			</div>
 		</div>
 		<div class="modal-body">
 			<div id="Detail" class="detail-div">
 				<div id ="FormularioCromos" class="mx-auto">
-					<div id ="btnUpDel" class="form-group">
-						<button :disabled="this.isEditable" id="enableEditButton" class="btn btn-primary" v-on:click="buttonEnableEdit"><span class="glyphicon glyphicon-pencil"></span> Modificar</button>
-						<button  id="borrarButton" :disabled="this.computeDeleteButton" class="btn btn-danger" v-on:click="buttonBorrar"><span class="glyphicon glyphicon-trash"></span>Borrar</button>
-					</div>
-					<div class="form-group">
-						<div id="izq">
-							<label for="Nombre">Título de la colección:</label>
-						</div>
-						<input :disabled="!isEditable" class="form-control" v-model="documento.Titulo" type="text" id="TituloInput" placeholder="Titulo"></input>
-					</div>
-					<div class="form-group">
-						<div id="izq">
-							<label>Formato de colección:</label>
-						</div>
-						<input :disabled="!isEditable" class="form-control" type="text" v-model="documento.Formato" id="FormatoInput" placeholder="Formato"></input>
-					</div>
-					<div class="checkbox">
-						<div id="izq">
-							<label>	<input :disabled="!isEditable" class="checkbox" type="checkbox" v-model="documento.Periodica" id="modificableInput" >Periódica</label>
-						</div>
-					</div>
-					
+					<div id="alineacion">
+						
 
-					<div id="izq">
+						<div class="form-group">
+
+							<label for="Nombre">Título de la colección:</label>
+
+							<input :disabled="!isEditable" class="form-control" v-model="coleccion.Titulo" type="text" id="TituloInput" placeholder="Escribe el título que deseas darle a la colección"></input>
+						</div>
+						<div class="form-group">
+
+							<label>Formato de colección:</label>
+
+							<input :disabled="!isEditable" class="form-control" type="text" v-model="coleccion.Formato" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
+						</div>
+
+						<div class="checkbox">
+
+							<label>	<input :disabled="!isEditable" class="checkbox" type="checkbox" v-model="coleccion.Periodica" id="modificableInput" >Periódica</label>
+
+						</div>
+
 						<div class="form-inline">
 							<div class="form-group">
 								<label>Fecha fin de tirada:</label>
-								<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaInicio" id="creacionInput" ></input>
+								<input :disabled="!isEditable" class="form-control" type="date" v-model="coleccion.FechaInicio" id="creacionInput" ></input>
 
-								<label>Fecha inicio tirada:</label>
-								<input :disabled="!isEditable" class="form-control" type="date" v-model="documento.FechaFin" id="ultimamodificacionInput"></input>
+								<label> Fecha inicio tirada:</label>
+								<input :disabled="!isEditable" class="form-control" type="date" v-model="coleccion.FechaFin" id="ultimamodificacionInput"></input>
 
 
 							</div>
 						</div>
-					</div>
-					<hr>
-					<div class="form-group">
-						<div id="izq">
-							<label>Tamaño del cromo:</label>
-						</div>
-						<input :disabled="!isEditable" class="form-control" type="number" v-model="documento.Tamanio" id="tamanioInput" ></input>
-					</div>
-					<div>
-						<div id="izq">
+						<div class="form-group">
 							<label>Tipo:</label>
+
+							<select v-model="coleccion.Tipo" class="form-control" :disabled="!isEditable" placeholder="Selecciona el tipo de ">
+								<option value=1>Papel</option>
+								<option value=2>Holográfica</option>
+								<option value=3>3D</option>
+								<option value=4>Plástico</option>
+								<option value=5>Clásico</option>
+							</select>
 						</div>
-						<select v-model="documento.Tipo" class="form-control" :disabled="!isEditable">
-							<option value=1>Texto plano</option>
-							<option value=2>Imagen</option>
-							<option value=3>PDF</option>
-							<option value=4>Hoja de cálculo</option>
-							<option value=5>Documento de Word</option>
-						</select>
-					</div>
-					<hr>
-					<div v-if="this.state==0">
-						<input id="input-1a" type="file" class="file" data-show-preview="false">
-					</div>
-					
+						<div class="form-group">
 
+							<label>Número de cromos de la colección:</label>
 
+							<input :disabled="!isEditable" class="form-control" type="number" v-model="coleccion.Tamanio" id="tamanioInput" ></input>
+						</div>
+
+						<div v-if="this.state==0">
+							<input id="input-1a" type="file" class="file" data-show-preview="false">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -92,9 +89,9 @@
 		},
 		data (){
 			return{
-				documento:{
+				coleccion:{
 				},
-				previousDocument:{
+				anteriorColeccion:{
 				},
 				isEditable:false,
 				menuChoice : "ColeccionTipos",
@@ -115,25 +112,25 @@
 					return false;
 				}
 				else if(this.state == constantes.STATE_UPDATE){
-					if(this.documento.Titulo != this.previousDocument.Titulo){
+					if(this.coleccion.Titulo != this.anteriorColeccion.Titulo){
 						return false;
 					}
-					else if(this.documento.Formato != this.previousDocument.Formato){
+					else if(this.coleccion.Formato != this.anteriorColeccion.Formato){
 						return false;
 					}
-					else if(this.documento.FechaInicio != this.previousDocument.FechaInicio){
+					else if(this.coleccion.FechaInicio != this.anteriorColeccion.FechaInicio){
 						return false;
 					}
-					else if(this.documento.FechaFin != this.previousDocument.FechaFin){
+					else if(this.coleccion.FechaFin != this.anteriorColeccion.FechaFin){
 						return false;
 					}
-					else if(this.documento.Tipo != this.previousDocument.Tipo){
+					else if(this.coleccion.Tipo != this.anteriorColeccion.Tipo){
 						return false;
 					}
-					else if(this.documento.Tamanio != this.previousDocument.Tamanio){
+					else if(this.coleccion.Tamanio != this.anteriorColeccion.Tamanio){
 						return false;
 					}
-					else if(this.documento.Periodica != this.previousDocument.Periodica){
+					else if(this.coleccion.Periodica != this.anteriorColeccion.Periodica){
 						return false;
 					}
 					else{return true;}
@@ -141,10 +138,10 @@
 			},
 			computeDeleteButton: function(){
 				if(!this.isEditable){
-					return true;
+					return false;
 				}
 				else if(this.state == constantes.STATE_UPDATE){
-					return false;
+					return true;
 				}
 				else {return true};
 			},
@@ -152,7 +149,7 @@
 		methods:{
 			buttonEnableEdit: function(){
 				this.isEditable = !this.isEditable;
-				this.previousDocument = $.extend({}, this.documento)
+				this.anteriorColeccion = $.extend({}, this.coleccion)
 			},
 			buttonBorrar: function(){
 				if(confirm("¿Está seguro de que quiere borrar?")){
@@ -177,24 +174,24 @@
 
 				if(this.state == constantes.STATE_NEW){
 					let errores = "";
-					if(this.documento.Titulo===""){
+					if(this.coleccion.Titulo===""){
 						errores+="El valor de Título está vacío. \n";
 					}
-					if(this.documento.Formato===""){
+					if(this.coleccion.Formato===""){
 						errores+="El valor de Formato está vacío. \n";
 					}
-					if(this.documento.FechaInicio === "")
+					if(this.coleccion.FechaInicio === "")
 					{
 						errores+="El valor de Fecha de Creación está vacío. \n";
 					}
-					if(this.documento.FechaFin === "" )
+					if(this.coleccion.FechaFin === "" )
 					{
 						errores+="El valor de Última Modificación está vacío. \n";
 					}
-					if(this.documento.Tipo === 0){
+					if(this.coleccion.Tipo === 0){
 						errores+="El valor de Tipo no es correcto. \n";	
 					} 
-					if(this.documento.Tamanio === 0){
+					if(this.coleccion.Tamanio === 0){
 						errores+="El valor de Tamaño es 0. \n";
 					}
 					if(errores != ""){
@@ -203,7 +200,7 @@
 					else{
 						$.ajax({url:constantes.BASE_URL + this.menuChoice,
 							method:"POST",
-							data: this.documento})	
+							data: this.coleccion})	
 						.done(this.afterPostHandler)
 						.fail(function(){
 							alert("Fallo en la creacion del elemento");
@@ -215,7 +212,7 @@
 				else if(this.state == constantes.STATE_UPDATE){
 					$.ajax({url:constantes.BASE_URL + this.menuChoice + "/" + this.currentId,
 						method:"PUT",
-						data: this.documento})
+						data: this.coleccion})
 					.done(this.putSubmitData)
 				}
 			},
@@ -228,7 +225,7 @@
 			},
 			putSubmitData(){
 				alert("Elemento modificado");
-				this.previousDocument = $.extend({}, this.documento);
+				this.anteriorColeccion = $.extend({}, this.coleccion);
 				this.$emit('forceUpdate', true);
 
 			}, 	
@@ -244,48 +241,48 @@
 			},
 			makeEmptyData(){
 				if(!this.estaVacio){
-					this.documento = {};
+					this.coleccion = {};
 					this.currentId = "";
-					this.documento.Titulo = "";
-					this.documento.Formato = "";
-					this.documento.FechaInicio = "";
-					this.documento.FechaFin = "";
-					this.documento.Tamanio = 0;
-					this.documento.Tipo = 0;
-					this.documento.Periodica = false;
+					this.coleccion.Titulo = "";
+					this.coleccion.Formato = "";
+					this.coleccion.FechaInicio = "";
+					this.coleccion.FechaFin = "";
+					this.coleccion.Tamanio = 0;
+					this.coleccion.Tipo = 0;
+					this.coleccion.Periodica = false;
 
-					this.previousDocument={};
-					this.previousDocument.Titulo = "";
-					this.previousDocument.Formato = "";
-					this.previousDocument.FechaInicio = "";
-					this.previousDocument.FechaFin = "";
-					this.previousDocument.Tamanio = 0;
-					this.previousDocument.Tipo = 0;
-					this.previousDocument.Periodica = false;
+					this.anteriorColeccion={};
+					this.anteriorColeccion.Titulo = "";
+					this.anteriorColeccion.Formato = "";
+					this.anteriorColeccion.FechaInicio = "";
+					this.anteriorColeccion.FechaFin = "";
+					this.anteriorColeccion.Tamanio = 0;
+					this.anteriorColeccion.Tipo = 0;
+					this.anteriorColeccion.Periodica = false;
 				}
 			},
 			submitGetRequest(datos){
 				this.currentId = datos.Id;
-				this.documento = datos; 	
+				this.coleccion = datos; 	
 			},
 			parseTipo: function(array){
 				var _this = this;
 				array.forEach(function(element, index) {
 					
-					if(element.Tipo == 2){
-						_this.lista[index].Tipo = "Imagen";
+					if(element.Tipo == 1){
+						_this.lista[index].Tipo = "Papel";
+					}
+					else if(element.Tipo == 2){
+						_this.lista[index].Tipo = "Holográfica";
 					}
 					else if(element.Tipo == 3){
-						_this.lista[index].Tipo = "PDF";
+						_this.lista[index].Tipo = "3D";
 					}
 					else if(element.Tipo == 4){
-						_this.lista[index].Tipo = "Hoja de cálculo";
+						_this.lista[index].Tipo = "Plástico";
 					}
 					else if(element.Tipo == 5){
-						_this.lista[index].Tipo = "Documento de Word";
-					}
-					else if(element.Tipo == 1){
-						_this.lista[index].Tipo = "Texto";
+						_this.lista[index].Tipo = "Clásico";
 					}
 				});
 			},
@@ -319,9 +316,8 @@
 		margin-top: 20px;
 		margin-bottom: 20px;
 		border: 0;
-		/* border-top: 1px solid #eee; */
 	}
-	#izq{
+	#alineacion{
 		text-align: left;
 	}
 </style>
