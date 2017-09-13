@@ -1,6 +1,4 @@
 <template>
-
-
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" v-on:click="buttonCancelar">Cerrar &times;</button>
@@ -44,11 +42,13 @@
 
 						<div class="form-inline">
 							<div class="form-group">
+								<label> Fecha inicio tirada:</label>
+								<input :disabled="!isEditable" class="form-control" type="date" v-model="coleccion.FechaFin" id="ultimamodificacionInput"></input>
+
 								<label>Fecha fin de tirada:</label>
 								<input :disabled="!isEditable" class="form-control" type="date" v-model="coleccion.FechaInicio" id="creacionInput" ></input>
 
-								<label> Fecha inicio tirada:</label>
-								<input :disabled="!isEditable" class="form-control" type="date" v-model="coleccion.FechaFin" id="ultimamodificacionInput"></input>
+								
 							</div>
 						</div>
 						<!-- <div class="form-group">
@@ -83,9 +83,6 @@
 			</div>
 		</div>
 	</div>
-
-
-	
 </template>
 
 <script>

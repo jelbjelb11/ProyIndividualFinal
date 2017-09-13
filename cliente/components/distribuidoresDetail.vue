@@ -25,7 +25,7 @@
 
 							<label>CIF:</label>
 
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.CIF" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
+							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.CIF" id="FormatoInput" placeholder="CIF de la empresa"></input>
 						</div>
 
 						<div class="checkbox">
@@ -37,28 +37,28 @@
 						<div class="form-inline">
 							<div class="form-group">	
 								<label>Teléfono:</label>
-								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Telefono" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
+								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Telefono" id="FormatoInput" placeholder="Teléfono de contacto"></input>
 								<label>Persona de contacto:</label>
-								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.NombreContacto" id="ultimamodificacionInput"></input>
+								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.NombreContacto" id="ultimamodificacionInput" placeholder="Nombre de la persona de contacto"></input>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label>Domicilio social:</label>
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.DomicilioSocial" id="creacionInput" ></input>
+							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.DomicilioSocial" id="creacionInput" placeholder="Dirección de la empresa"></input>
 							
 						</div>
 
 						<div class="form-group">
 
 							<label>E-mail:</label>
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Email" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
+							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Email" id="FormatoInput" placeholder="Dirección de correo electrónico de contacto"></input>
 						</div>
 
 						<div class="form-group">
 
 							<label>Página web:</label>
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Web" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
+							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Web" id="FormatoInput" placeholder="Página web de la compañía"></input>
 						</div>
 					</div>
 				</div>
