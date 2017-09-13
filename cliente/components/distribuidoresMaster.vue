@@ -9,13 +9,11 @@
 				</td>
 			</tr>
 				<tr>
-
 					<th>#</th>
 					<th>Razón Social</th>
 					<th>Nombre de contacto</th>
 					<th>Teléfono</th>
 					<th><i id="icon" class="fa fa-user-plus fa-2x" aria-hidden="false" v-on:click="getNewDetail()"></i></th>
-
 				</tr>
 			</thead>
 			<tbody @click="" v-for="(item, index) in lista">

@@ -14,24 +14,18 @@
 				<div id ="FormularioCromos" class="mx-auto">
 					<div id="alineacion">
 						
-
 						<div class="form-group">
-
 							<label for="Nombre">Razón social:</label>
-
 							<input :disabled="!isEditable" class="form-control" v-model="distribuidor.RazonSocial" type="text" id="TituloInput" placeholder="Escribe el título que deseas darle a la colección"></input>
 						</div>
+
 						<div class="form-group">
-
 							<label>CIF:</label>
-
 							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.CIF" id="FormatoInput" placeholder="CIF de la empresa"></input>
 						</div>
 
 						<div class="checkbox">
-
 							<label>	<input :disabled="!isEditable" class="checkbox" type="checkbox" v-model="distribuidor.Activa" id="modificableInput">Activo</label>
-
 						</div>
 
 						<div class="form-inline">
@@ -39,26 +33,23 @@
 								<label>Teléfono:</label>
 								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Telefono" id="FormatoInput" placeholder="Teléfono de contacto"></input>
 								<label>Persona de contacto:</label>
-								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.NombreContacto" id="ultimamodificacionInput" placeholder="Nombre de la persona de contacto"></input>
+								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.NombreContacto" id="ultimamodificacionInput" placeholder="Nombre del contacto"></input>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label>Domicilio social:</label>
 							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.DomicilioSocial" id="creacionInput" placeholder="Dirección de la empresa"></input>
-							
 						</div>
 
 						<div class="form-group">
-
 							<label>E-mail:</label>
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Email" id="FormatoInput" placeholder="Dirección de correo electrónico de contacto"></input>
+							<input :disabled="!isEditable" class="form-control" type="email" v-model="distribuidor.Email" id="FormatoInput" placeholder="Dirección de correo electrónico de contacto"></input>
 						</div>
 
 						<div class="form-group">
-
 							<label>Página web:</label>
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Web" id="FormatoInput" placeholder="Página web de la compañía"></input>
+							<input :disabled="!isEditable" class="form-control" type="url" v-model="distribuidor.Web" id="FormatoInput" placeholder="Página web de la compañía"></input>
 						</div>
 					</div>
 				</div>
@@ -106,25 +97,28 @@
 					return false;
 				}
 				else if(this.state == constantes.STATE_UPDATE){
-					if(this.distribuidor.Titulo != this.anteriorDistribuidor.Titulo){
+					if(this.distribuidor.RazonSocial != this.anteriorDistribuidor.RazonSocial){
 						return false;
 					}
-					else if(this.distribuidor.Formato != this.anteriorDistribuidor.Formato){
+					else if(this.distribuidor.CIF != this.anteriorDistribuidor.CIF){
 						return false;
 					}
-					else if(this.distribuidor.FechaInicio != this.anteriorDistribuidor.FechaInicio){
+					else if(this.distribuidor.Activa != this.anteriorDistribuidor.Activa){
 						return false;
 					}
-					else if(this.distribuidor.FechaFin != this.anteriorDistribuidor.FechaFin){
+					else if(this.distribuidor.Telefono != this.anteriorDistribuidor.Telefono){
 						return false;
 					}
-					else if(this.distribuidor.Tipo != this.anteriorDistribuidor.Tipo){
+					else if(this.distribuidor.NombreContacto != this.anteriorDistribuidor.NombreContacto){
 						return false;
 					}
-					else if(this.distribuidor.Tamanio != this.anteriorDistribuidor.Tamanio){
+					else if(this.distribuidor.DomicilioSocial != this.anteriorDistribuidor.DomicilioSocial){
 						return false;
 					}
-					else if(this.distribuidor.Periodica != this.anteriorDistribuidor.Periodica){
+					else if(this.distribuidor.Email != this.anteriorDistribuidor.Email){
+						return false;
+					}
+					else if(this.distribuidor.Web != this.anteriorDistribuidor.Web){
 						return false;
 					}
 					else{return true;}
@@ -260,27 +254,6 @@
 			submitGetRequest(datos){
 				this.currentId = datos.Id;
 				this.distribuidor = datos; 	
-			},
-			parseTipo: function(array){
-				var _this = this;
-				array.forEach(function(element, index) {
-					
-					if(element.Tipo == 1){
-						_this.lista[index].Tipo = "Papel";
-					}
-					else if(element.Tipo == 2){
-						_this.lista[index].Tipo = "Holográfica";
-					}
-					else if(element.Tipo == 3){
-						_this.lista[index].Tipo = "3D";
-					}
-					else if(element.Tipo == 4){
-						_this.lista[index].Tipo = "Plástico";
-					}
-					else if(element.Tipo == 5){
-						_this.lista[index].Tipo = "Clásico";
-					}
-				});
 			},
 			makeNewDetail: function(){
 				this.makeEmptyData();

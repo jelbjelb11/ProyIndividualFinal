@@ -12,19 +12,13 @@
 				<div id ="FormularioCromos" class="mx-auto">
 					<div id="alineacion">
 						
-
 						<div class="form-group">
-
 							<label for="Nombre">Título de la colección:</label>
-
 							<input :disabled="!isEditable" class="form-control" v-model="coleccion.Titulo" type="text" id="TituloInput" placeholder="Escribe el título que deseas darle a la colección"></input>
 						</div>
+
 						<div class="form-group">
-
 							<label>Formato de colección:</label>
-
-							<!-- <input :disabled="!isEditable" class="form-control" type="text" v-model="coleccion.Formato" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input> -->
-
 							<select id="FormatoInput" v-model="coleccion.Formato" class="form-control" :disabled="!isEditable" placeholder="Formato de los cromos de la colección">
 								<option value=1>Papel</option>
 								<option value=2>Holográfica</option>
@@ -35,9 +29,7 @@
 						</div>
 
 						<div class="checkbox">
-
 							<label>	<input :disabled="!isEditable" class="checkbox" type="checkbox" v-model="coleccion.Periodica" id="modificableInput" >Periódica</label>
-
 						</div>
 
 						<div class="form-inline">
@@ -47,30 +39,18 @@
 
 								<label>Fecha fin de tirada:</label>
 								<input :disabled="!isEditable" class="form-control" type="date" v-model="coleccion.FechaInicio" id="creacionInput" ></input>
-
-								
 							</div>
 						</div>
-						<!-- <div class="form-group">
-							<label>Tipo:</label>
 
-							<select v-model="coleccion.Tipo" class="form-control" :disabled="!isEditable" placeholder="Selecciona el tipo de ">
-								<option value=1>Papel</option>
-								<option value=2>Holográfica</option>
-								<option value=3>3D</option>
-								<option value=4>Plástico</option>
-								<option value=5>Clásico</option>
-							</select>
-						</div> -->
 						<div class="form-group">
-
 							<label>Número de cromos de la colección:</label>
-
 							<input :disabled="!isEditable" class="form-control" type="number" v-model="coleccion.NumeroCromos" id="tamanioInput" ></input>
 						</div>
 
 						<div v-if="this.state==0">
-							<input id="input-1a" type="file" class="file" data-show-preview="false">
+							<span class="btn btn-default btn-file">
+								Añadir imagen <input type="file">
+							</span>
 						</div>
 					</div>
 				</div>
@@ -127,13 +107,13 @@
 					else if(this.coleccion.FechaFin != this.anteriorColeccion.FechaFin){
 						return false;
 					}
-					// else if(this.coleccion.Tamanio != this.anteriorColeccion.Tamanio){
-					// 	return false;
-					// }
 					else if(this.coleccion.NumeroCromos != this.anteriorColeccion.NumeroCromos){
 						return false;
 					}
 					else if(this.coleccion.Periodica != this.anteriorColeccion.Periodica){
+						return false;
+					}
+					else if(this.coleccion.Tipo != this.anteriorColeccion.Tipo){
 						return false;
 					}
 					else{return true;}
@@ -191,12 +171,6 @@
 					{
 						errores+="El valor de fecha de fin está vacío. \n";
 					}
-					if(this.coleccion.Tipo === 0){
-						errores+="El valor de Tipo no es correcto. \n";	
-					} 
-					// if(this.coleccion.Tamanio === ""){
-					// 	errores+="Inserta un tamaño de ejemplar para la colección. \n";
-					// }
 					if(this.coleccion.NumeroCromos === 0){
 						errores+="Inserta un número de ejemplares para la colección. \n";
 					}
@@ -224,9 +198,6 @@
 			afterPostHandler(){
 				alert("La colección se ha creado con éxito.");
 				this.$emit('forceUpdate', true);
-
-				// TODO: Se fuerza un get en el maestro y se cierra el detail.
-				// Podemos llamar al metodo buttonCancelar.
 			},
 			putSubmitData(){
 				alert("Colección modificada correctamente.");
@@ -252,7 +223,6 @@
 					this.coleccion.Formato = "";
 					this.coleccion.FechaInicio = "";
 					this.coleccion.FechaFin = "";
-					this.coleccion.Tamanio = 0;
 					this.coleccion.NumeroCromos = 0;
 					this.coleccion.Periodica = false;
 
@@ -261,7 +231,6 @@
 					this.anteriorColeccion.Formato = "";
 					this.anteriorColeccion.FechaInicio = "";
 					this.anteriorColeccion.FechaFin = "";
-					this.anteriorColeccion.Tamanio = 0;
 					this.anteriorColeccion.NumeroCromos = 0;
 					this.anteriorColeccion.Periodica = false;
 				}
@@ -324,5 +293,24 @@
 	}
 	#alineacion{
 		text-align: left;
+	}
+	.btn-file {
+		position: relative;
+		overflow: hidden;
+	}
+	.btn-file input[type=file] {
+		position: absolute;
+		top: 0;
+		right: 0;
+		min-width: 100%;
+		min-height: 100%;
+		font-size: 100px;
+		text-align: right;
+		filter: alpha(opacity=0);
+		opacity: 0;
+		outline: none;
+		background: white;
+		cursor: inherit;
+		display: block;
 	}
 </style>

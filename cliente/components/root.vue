@@ -5,7 +5,7 @@
 		<ul class="nav nav-pills" role="tablist">
 			<li>
 				<a>
-					<img src="/components/logo.png" width="120" height="50" class="d-inline-block align-top" alt="">
+					<img src="/resources/logo.png" width="120" height="50" class="d-inline-block align-top" alt="">
 
 				</a>
 			</li>
