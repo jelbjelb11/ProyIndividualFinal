@@ -3,17 +3,17 @@
 		<table class="table table-hover" role="tablist">
 
 			<thead>
-			<tr  v-if="computeShowNewDetail" colspan="6">
-				<td colspan="6">
-					<detail @cancelDetail ="removeDetail" @forceUpdate = "forceUpdate" :currentId = "elegido" :state ="state" role="tabpanel" class="float-right"> </detail>
-				</td>
-			</tr>
+				<tr  v-if="computeShowNewDetail" colspan="6">
+					<td colspan="6">
+						<detail @cancelDetail ="removeDetail" @forceUpdate = "forceUpdate" :currentId = "elegido" :state ="state" role="tabpanel" class="float-right"> </detail>
+					</td>
+				</tr>
 				<tr>
 
 					<th>#</th>
 					<th>Título</th>
 					<th>Formato</th>
-					<th>Periodica</th>
+					<th>Periódica</th>
 					<th><i id="icon" class="fa fa-user-plus fa-2x" aria-hidden="false" v-on:click="getNewDetail()"></i></th>
 
 				</tr>
@@ -24,6 +24,7 @@
 					<td>{{item.Titulo}}</td>
 					<td>{{item.Formato}}</td>
 					<td>{{item.Periodica}}</td>
+					<!-- <td><i id="icon" class="glyphicon glyphicon-trash" aria-hidden="false" v-on:click="buttonBorrar"></i></td> -->
 				</tr>
 
 				<tr id="detail-tr" v-if="item.Id == elegido">
@@ -100,37 +101,48 @@
 			},
 			submitGetListValues: function(datos){
 				this.lista = datos;
-				// this.parseTipo(datos);
+				this.parseTipo(datos);
 			},
-			// parseTipo: function(array){
-			// 	var _this = this;
-			// 	array.forEach(function(element, index) {
-			// 		if(element.Tipo == 4){
-			// 			_this.lista[index].Tipo = "Texto";
-			// 		}
-			// 		else if(element.Tipo == 1){
-			// 			_this.lista[index].Tipo = "Imagen";
-			// 		}
-			// 		else if(element.Tipo == 2){
-			// 			_this.lista[index].Tipo = "HTML";
-			// 		}
-			// 		else if(element.Tipo == 3){
-			// 			_this.lista[index].Tipo = "Hoja de cálculo";
-			// 		}
-			// 		if(element.SoloLectura){
-			// 			_this.lista[index].SoloLectura = "Si";
-			// 		}
-			// 		else{
-			// 			_this.lista[index].SoloLectura = "No";
-			// 		}
-			// 	});
-			// },
-
-
+			parseTipo: function(array){
+				var _this = this;
+				array.forEach(function(element, index) {
+					
+					if(element.Formato == 1){
+						_this.lista[index].Formato = "Papel";
+					}
+					else if(element.Formato == 2){
+						_this.lista[index].Formato = "Holográfica";
+					}
+					else if(element.Formato == 3){
+						_this.lista[index].Formato = "3D";
+					}
+					else if(element.Formato == 4){
+						_this.lista[index].Formato = "Plástico";
+					}
+					else if(element.Formato == 5){
+						_this.lista[index].Formato = "Clásico";
+					}
+					if(element.Periodica == true){
+						_this.lista[index].Periodica = "Si";
+					} else {
+						_this.lista[index].Periodica = "No";
+					}
+				});
+			},
 			getNewDetail: function(){
 				this.state = constantes.STATE_NEW;
 				this.elegido = "";
 			},	
+			// buttonBorrar: function(){
+			// 	if(confirm("¿Está seguro de que quiere borrar?")){
+			// 		$.ajax({
+			// 			url:constantes.BASE_URL + this.menuChoice + "/" + elegido,
+			// 			method: "DELETE"
+			// 		})
+			// 		.done(this.borradoHandler)
+			// 		.fail(function(){alert("Ha habido un error al borrar.");})
+			// 	}
+			// },
 			renderDetail: function(index){
 				if(this.state == constantes.STATE_UPDATE){
 					if(this.elegido == index){

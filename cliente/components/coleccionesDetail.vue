@@ -25,7 +25,15 @@
 
 							<label>Formato de colección:</label>
 
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="coleccion.Formato" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
+							<!-- <input :disabled="!isEditable" class="form-control" type="text" v-model="coleccion.Formato" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input> -->
+
+							<select id="FormatoInput" v-model="coleccion.Formato" class="form-control" :disabled="!isEditable" placeholder="Formato de los cromos de la colección">
+								<option value=1>Papel</option>
+								<option value=2>Holográfica</option>
+								<option value=3>3D</option>
+								<option value=4>Plástico</option>
+								<option value=5>Clásico</option>
+							</select>
 						</div>
 
 						<div class="checkbox">
@@ -41,11 +49,9 @@
 
 								<label> Fecha inicio tirada:</label>
 								<input :disabled="!isEditable" class="form-control" type="date" v-model="coleccion.FechaFin" id="ultimamodificacionInput"></input>
-
-
 							</div>
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label>Tipo:</label>
 
 							<select v-model="coleccion.Tipo" class="form-control" :disabled="!isEditable" placeholder="Selecciona el tipo de ">
@@ -55,12 +61,12 @@
 								<option value=4>Plástico</option>
 								<option value=5>Clásico</option>
 							</select>
-						</div>
+						</div> -->
 						<div class="form-group">
 
 							<label>Número de cromos de la colección:</label>
 
-							<input :disabled="!isEditable" class="form-control" type="number" v-model="coleccion.Tamanio" id="tamanioInput" ></input>
+							<input :disabled="!isEditable" class="form-control" type="number" v-model="coleccion.NumeroCromos" id="tamanioInput" ></input>
 						</div>
 
 						<div v-if="this.state==0">
@@ -124,10 +130,10 @@
 					else if(this.coleccion.FechaFin != this.anteriorColeccion.FechaFin){
 						return false;
 					}
-					else if(this.coleccion.Tipo != this.anteriorColeccion.Tipo){
-						return false;
-					}
-					else if(this.coleccion.Tamanio != this.anteriorColeccion.Tamanio){
+					// else if(this.coleccion.Tamanio != this.anteriorColeccion.Tamanio){
+					// 	return false;
+					// }
+					else if(this.coleccion.NumeroCromos != this.anteriorColeccion.NumeroCromos){
 						return false;
 					}
 					else if(this.coleccion.Periodica != this.anteriorColeccion.Periodica){
@@ -175,24 +181,27 @@
 				if(this.state == constantes.STATE_NEW){
 					let errores = "";
 					if(this.coleccion.Titulo===""){
-						errores+="El valor de Título está vacío. \n";
+						errores+="Escribe un título para la colección. \n";
 					}
 					if(this.coleccion.Formato===""){
-						errores+="El valor de Formato está vacío. \n";
+						errores+="Selecciona un formato. \n";
 					}
 					if(this.coleccion.FechaInicio === "")
 					{
-						errores+="El valor de Fecha de Creación está vacío. \n";
+						errores+="El valor de fecha de inicio está vacío. \n";
 					}
 					if(this.coleccion.FechaFin === "" )
 					{
-						errores+="El valor de Última Modificación está vacío. \n";
+						errores+="El valor de fecha de fin está vacío. \n";
 					}
 					if(this.coleccion.Tipo === 0){
 						errores+="El valor de Tipo no es correcto. \n";	
 					} 
-					if(this.coleccion.Tamanio === 0){
-						errores+="El valor de Tamaño es 0. \n";
+					// if(this.coleccion.Tamanio === ""){
+					// 	errores+="Inserta un tamaño de ejemplar para la colección. \n";
+					// }
+					if(this.coleccion.NumeroCromos === 0){
+						errores+="Inserta un número de ejemplares para la colección. \n";
 					}
 					if(errores != ""){
 						alert("Hay campos no rellenados. No se puede crear el objeto:\n" + errores);
@@ -203,9 +212,8 @@
 							data: this.coleccion})	
 						.done(this.afterPostHandler)
 						.fail(function(){
-							alert("Fallo en la creacion del elemento");
-						//TODO: Gestionar los fallos
-					})
+							alert("No se ha podido crear la colección.");
+						})
 					}
 
 				}
@@ -217,14 +225,14 @@
 				}
 			},
 			afterPostHandler(){
-				alert("Elemento creado");
+				alert("La colección se ha creado con éxito.");
 				this.$emit('forceUpdate', true);
 
 				// TODO: Se fuerza un get en el maestro y se cierra el detail.
 				// Podemos llamar al metodo buttonCancelar.
 			},
 			putSubmitData(){
-				alert("Elemento modificado");
+				alert("Colección modificada correctamente.");
 				this.anteriorColeccion = $.extend({}, this.coleccion);
 				this.$emit('forceUpdate', true);
 
@@ -236,7 +244,7 @@
 				})
 				.done(this.submitGetRequest)
 				.fail(function(){
-					alert("Ha fallado la carga del objeto");
+					alert("No se pueden mostrar los elementos.");
 				})
 			},
 			makeEmptyData(){
@@ -248,7 +256,7 @@
 					this.coleccion.FechaInicio = "";
 					this.coleccion.FechaFin = "";
 					this.coleccion.Tamanio = 0;
-					this.coleccion.Tipo = 0;
+					this.coleccion.NumeroCromos = 0;
 					this.coleccion.Periodica = false;
 
 					this.anteriorColeccion={};
@@ -257,7 +265,7 @@
 					this.anteriorColeccion.FechaInicio = "";
 					this.anteriorColeccion.FechaFin = "";
 					this.anteriorColeccion.Tamanio = 0;
-					this.anteriorColeccion.Tipo = 0;
+					this.anteriorColeccion.NumeroCromos = 0;
 					this.anteriorColeccion.Periodica = false;
 				}
 			},
@@ -269,20 +277,20 @@
 				var _this = this;
 				array.forEach(function(element, index) {
 					
-					if(element.Tipo == 1){
-						_this.lista[index].Tipo = "Papel";
+					if(element.Formato == 1){
+						_this.lista[index].Formato = "Papel";
 					}
-					else if(element.Tipo == 2){
-						_this.lista[index].Tipo = "Holográfica";
+					else if(element.Formato == 2){
+						_this.lista[index].Formato = "Holográfica";
 					}
-					else if(element.Tipo == 3){
-						_this.lista[index].Tipo = "3D";
+					else if(element.Formato == 3){
+						_this.lista[index].Formato = "3D";
 					}
-					else if(element.Tipo == 4){
-						_this.lista[index].Tipo = "Plástico";
+					else if(element.Formato == 4){
+						_this.lista[index].Formato = "Plástico";
 					}
-					else if(element.Tipo == 5){
-						_this.lista[index].Tipo = "Clásico";
+					else if(element.Formato == 5){
+						_this.lista[index].Formato = "Clásico";
 					}
 				});
 			},
@@ -307,7 +315,7 @@
 	}
 </script>
 
-<style>
+<style type="text/css">
 	#btnUpDel{
 		text-align: left;
 	}

@@ -35,60 +35,30 @@
 						</div>
 
 						<div class="form-inline">
-							<div class="form-group">
-								<label>Domicilio social:</label>
-								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.DomicilioSocial" id="creacionInput" ></input>
-
+							<div class="form-group">	
+								<label>Teléfono:</label>
+								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Telefono" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
 								<label>Persona de contacto:</label>
 								<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.NombreContacto" id="ultimamodificacionInput"></input>
-
-
 							</div>
 						</div>
 
 						<div class="form-group">
-
-							<label>Teléfono:</label>
-
-							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Telefono" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
+							<label>Domicilio social:</label>
+							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.DomicilioSocial" id="creacionInput" ></input>
+							
 						</div>
 
 						<div class="form-group">
 
 							<label>E-mail:</label>
-
 							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Email" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
 						</div>
 
 						<div class="form-group">
 
 							<label>Página web:</label>
-
 							<input :disabled="!isEditable" class="form-control" type="text" v-model="distribuidor.Web" id="FormatoInput" placeholder="Formato de los cromos de la colección"></input>
-						</div>
-
-
-<!-- 
-						<div class="form-group">
-							<label>Tipo:</label>
-
-							<select v-model="distribuidor.Tipo" class="form-control" :disabled="!isEditable" placeholder="Selecciona el tipo de ">
-								<option value=1>Papel</option>
-								<option value=2>Holográfica</option>
-								<option value=3>3D</option>
-								<option value=4>Plástico</option>
-								<option value=5>Clásico</option>
-							</select>
-						</div>
-						<div class="form-group">
-
-							<label>Número de cromos de la colección:</label>
-
-							<input :disabled="!isEditable" class="form-control" type="number" v-model="distribuidor.Tamanio" id="tamanioInput" ></input>
-						</div> -->
-
-						<div v-if="this.state==0">
-							<input id="input-1a" type="file" class="file" data-show-preview="false">
 						</div>
 					</div>
 				</div>
@@ -199,30 +169,30 @@
 				if(this.state == constantes.STATE_NEW){
 					let errores = "";
 					if(this.distribuidor.RazonSocial===""){
-						errores+="El valor de Razón Social está vacío. \n";
+						errores+="El campo de Razón Social está vacío. \n";
 					}
 					if(this.distribuidor.CIF===""){
-						errores+="El valor de CIF está vacío. \n";
+						errores+="El campo del CIF está vacío. \n";
 					}
 					if(this.distribuidor.DomicilioSocial === "")
 					{
-						errores+="El valor de Domicilio Social está vacío. \n";
+						errores+="El campo de Domicilio Social está vacío. \n";
 					}
 					if(this.distribuidor.NombreContacto === "" )
 					{
-						errores+="El valor de NombreContacto está vacío. \n";
+						errores+="Introduzca una persona de contacto. \n";
 					}
 					if(this.distribuidor.Telefono === ""){
-						errores+="El valor de Tipo no es correcto. \n";	
+						errores+="El campo del Teléfono está vacío. \n";	
 					} 
 					if(this.distribuidor.Email === ""){
-						errores+="El valor de Tamaño es 0. \n";
+						errores+="Introduzca un e-mail de contacto. \n";
 					}
 					if(this.distribuidor.Web === ""){
-						errores+="El valor de Tamaño es 0. \n";
+						errores+="Intorduzca un página Web. \n";
 					}
 					if(errores != ""){
-						alert("Hay campos no rellenados. No se puede crear el objeto:\n" + errores);
+						alert("Hay campos incompletos o erroneos. No se puede crear el objeto:\n" + errores);
 					}
 					else{
 						$.ajax({url:constantes.BASE_URL + this.menuChoice,
@@ -231,8 +201,8 @@
 						.done(this.afterPostHandler)
 						.fail(function(){
 							alert("Fallo en la creacion del elemento");
-						//TODO: Gestionar los fallos
-					})
+
+						})
 					}
 
 				}
@@ -246,9 +216,6 @@
 			afterPostHandler(){
 				alert("Elemento creado");
 				this.$emit('forceUpdate', true);
-
-				// TODO: Se fuerza un get en el maestro y se cierra el detail.
-				// Podemos llamar al metodo buttonCancelar.
 			},
 			putSubmitData(){
 				alert("Elemento modificado");

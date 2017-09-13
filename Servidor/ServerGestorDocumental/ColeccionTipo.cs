@@ -9,10 +9,10 @@ namespace formulario
     {
         public long Id { get; set; }
         public string Titulo { get; set; }
-        public string Formato { get; set; }
-        public string FechaInicio { get; set; }
-        public string FechaFin { get; set; }
-        public string Tamanio { get; set; }
+        public int Formato { get; set; }
+        public String FechaInicio { get; set; }
+        public String FechaFin { get; set; }
+       // public string Tamanio { get; set; }
         public int NumeroCromos { get; set; }
         public bool Periodica { get; set; }
 
